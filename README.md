@@ -141,13 +141,8 @@ pdata$ref_nselectorateText <- NA
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 1] <- "Reform"
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 0] <- "No Reform"
 
-pdataWriting <- pdata%>%
-  filter(ref_nselectorate == 1)
 
-
-
-table(pdataWriting$jurisdiction, pdataWriting$family, pdataWriting$influencedByOthersJurisdiction)
-# for exporting tables in Word format for whe the table is a little too complexe to copy/paste from console
+# for exporting tables in Word format for whe the table is a little too complex to copy/paste from console
 #library(flextable) 
 
 
