@@ -13,7 +13,7 @@ require(GGally)
 require(reshape2)
 
 
-##### import data
+# import data
 library(readxl)
 
 # Importing the Excel file
