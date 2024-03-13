@@ -20,8 +20,8 @@ library(readxl)
 data <- read_excel("_bdChefferie_2023-12-11.xlsx")
 
 
-##### Convert + clean some 
-##### variables for models later
+## Convert & clean some variables for models later
+
 # Convert number variables to numeric values 
 data <- data %>%
   mutate(across(c(signatureQty:comlianceDeposit, percentWonLost, seatsWonLost), as.numeric))
@@ -34,7 +34,6 @@ data <- data %>%
 
 
 # sort by party id
-
 data <- data %>%
   group_by(nparty)
 
