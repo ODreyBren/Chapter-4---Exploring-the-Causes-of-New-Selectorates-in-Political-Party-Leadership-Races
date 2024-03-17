@@ -94,14 +94,21 @@ pdata <- pdata %>% arrange(nparty, yearLdrVote)
 
 
 
-# pdata a new variable that identifies changes nSelectorate
+#  a new variable that identifies changes nSelectorate
 pdata <- pdata %>%
   arrange(yearLdrVote) %>%
   group_by(jurisdiction, party) %>%
   mutate(ref_nselectorate = ifelse(c(0, diff(nSelectorate)) != 0, 1, 0)) %>%
   ungroup()
 
+#a new variable that identifies the type of change. Where a positive value woud mean decentralization and a negative value would be centralization. The number represents how many levels of change on the selectorate scale.
 
+pdata <- pdata %>%
+  arrange(yearLdrVote) %>%
+  group_by(jurisdiction, party) %>%
+  mutate(ref_nselectorate = ifelse(c(0, diff(nSelectorate)) != 0, 1, 0),
+         ref_nselectorateDirection = ifelse(ref_nselectorate == 1, c(0, diff(nSelectorate)), NA)) %>%
+  ungroup()
 
 # pdata a new variable that identifies parties in same jurisdiction that may have influenced reform (H4)
 # Function to check if any other party in the same jurisdiction used the same selectorate value in the preceding years
