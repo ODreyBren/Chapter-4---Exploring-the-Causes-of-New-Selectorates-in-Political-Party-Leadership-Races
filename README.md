@@ -20,24 +20,23 @@ Outcome Contingent
 **Q8. Outcome Contingent 3** Is a party using a selectorate that differs from that other parties in its political family more likely to adopt a new selectorate when that party improved its status in parliament at the election following the leadership race?
 
 
-## Code
+# Code
 ```R
-##### set path
+#set path
 setwd("~/_rCodesData/chapter2AllLdrRaces")
+```
 
-
-##### load packages
-
+## load packages
+```
 #For most of the environment
 library(tidyverse)
 require(GGally)
 require(reshape2)
-
-
-# import data
 library(readxl)
+```
 
-# Importing the Excel file
+## Importing the Excel file
+```
 data <- read_excel("_bdChefferie_2023-12-11.xlsx")
 ```
 
@@ -160,8 +159,12 @@ pdata$lostParlStatDummy[pdata$parlStatusChange >= 0 ]<- 0
 pdata$ref_nselectorateText <- NA
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 1] <- "Reform"
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 0] <- "No Reform"
+
 ```
-#Export the codebook of variables into a Word document
+
+
+## Export the codebook of variables into a Word document
+
 
 ```
 library(codebookr)
@@ -173,16 +176,18 @@ ldrRaceCanadaCodeBook <- codebook(pdata)
 
 #export in Word. It exports in the file where you keep the dataset
 print(codebook(pdata), "ldrRaceCanadaCodeBook.docx")
+
 ```
 
-#Visualizing the variables
+## Visualizing the variables
 ```
 # Define custom colors for each party family
 family_colors <- c("conservative" = "blue", "liberal" = "red", "new democratic" = "darkorange", "green" = "darkgreen", "sovereigntist" = "darkblue")  # Add more colors as needed
 ```
 
 
-# Plot the observations of my data
+### Plot the observations of my data
+```
 pdata %>%
   #filter(!is.na(ref_nselectorateText)) %>%
   mutate(jurisdiction = factor(jurisdiction, levels = rev(levels(jurisdiction)))) %>% # reordering the jurisdiction order because of the coord_flip
@@ -206,9 +211,8 @@ pdata %>%
 
 ```
 
-#           ANOMALOUS OUTCOMES
 
-#Seats (Absolute QTY)
+### Boxplot Seats (Absolute QTY)
 
 ```
    pdata %>%
@@ -232,7 +236,8 @@ pdata %>%
               legend.text = element_text(size = 20))  # Set size of legend text
 ```     
 
-#Percent of seats in the house
+### Boxplot Percent of seats in the house
+```
         pdata %>%
           filter(!is.na(ref_nselectorateText)) %>%
         ggplot(aes(x = ref_nselectorate, y = percentWonLost, fill = as.factor(ref_nselectorateText))) +
@@ -254,7 +259,9 @@ pdata %>%
                 legend.text = element_text(size = 20))  # Set size of legend text
 ```
 
-#Change in Vote share
+### Boxplot Change in Vote share (percent of vote)
+
+```
       pdata %>%
         filter(!is.na(ref_nselectorateText)) %>%
         ggplot(aes(x = ref_nselectorate, y = percentWonLost, fill = as.factor(ref_nselectorateText))) +
@@ -276,7 +283,8 @@ pdata %>%
               legend.text = element_text(size = 20))  # Set size of legend text
 ```
 
-#Change in Parliamentary Status
+### Boxplot Change in Parliamentary Status
+
 ```
         pdata %>%
           filter(!is.na(ref_nselectorateText)) %>%
@@ -297,7 +305,8 @@ pdata %>%
                 legend.text = element_text(size = 20))
 ```
 
-#Parliamentary status when the race was launched
+### Barplot Parliamentary status when the race was launched
+
 ```
 pdata %>%
   filter(!is.na(ref_nselectorateText)) %>%
@@ -321,21 +330,19 @@ pdata %>%
 
 
 
-
-
-
-# Assumption tests
+## Assumption tests
 ```
 library(nortest)
 library(outliers)
 ```
 
-# 3. Normality Testing
+### Normality Testing
 ```
 shapiro_iv1 <- shapiro.test(pdata$seatsWonLost)
 shapiro_iv2 <-shapiro.test(pdata$percentWonLost)
 ```
-# 4. Homogeneity of Variance
+### Homogeneity of Variance
+
 ```
 t_test_resultH1 <- t.test(seatsWonLost ~ ref_nselectorate, data = pdata, var.equal = FALSE)
 
@@ -345,13 +352,14 @@ t_test_resultH1 <- t.test(seatsWonLost ~ ref_nselectorate, data = pdata, var.equ
 #t = 0.92257, df = 13.026, p-value = 0.373
 #alternative hypothesis: true difference in means between group 0 and group 1 is not equal to 0
 #95 percent confidence interval:
-#  -6.62387 16.50134
+#-6.62387 16.50134
 #sample estimates:
 #  mean in group 0 mean in group 1 
 #-7.152174      -12.090909 
 
 
 t_test_resultH2 <- t.test( percentWonLost~ ref_nselectorate, data = pdata, var.equal = FALSE)
+
 #Welch Two Sample t-test
 
 #data:  percentWonLost by ref_nselectorate
@@ -367,12 +375,14 @@ t_test_resultH2 <- t.test( percentWonLost~ ref_nselectorate, data = pdata, var.e
 
 
 
-```# 5. Outlier Detection
+### Outlier Detection
+```
 outliers_iv1 <-   boxplot.stats(pdata$seatsWonLost)$out
 outliers_iv2 <- boxplot.stats(pdata$percentWonLost)$out
 ```
-```
-# 6. Correlation Analysis
+
+### Correlation Analysis
+
 ```
 pdataSpearman <- pdata%>%
   filter(!is.na(ref_nselectorate) & !is.na(seatsWonLost) & !is.na(percentWonLost) & !is.na(percentSeatWonLost))
@@ -382,7 +392,8 @@ correlation_iv2 <- cor(pdataSpearman$percentWonLost, pdataSpearman$ref_nselector
 ```
 
 
-#Export the results as a Word table
+### Export the results as a Word table
+
 ```
 # Create a data frame for the diagnostic results
 
@@ -422,7 +433,7 @@ print(doc, target = "h1H2_diagnosticsTable.docx")
 
 
 
-# Question 1 A party who obtained less seats in the legislature in the election preceding the leadership race is more likely to use a new selectorate
+## Question 1 A party who obtained less seats in the legislature in the election preceding the leadership race is more likely to use a new selectorate
 ```
 # Load library
 library(polycor)
@@ -452,7 +463,7 @@ print(point_biserial)
 ```
 
 
-# Question 2 At an election preceding a leadership race, a party who obtained less votes than the previous election is more likely to have changed the selectorate
+## Question 2 At an election preceding a leadership race, a party who obtained less votes than the previous election is more likely to have changed the selectorate
 ```
 # Calculate biserial correlation
 correlationH2 <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentWonLost)
@@ -473,9 +484,9 @@ point_biserialH2 <- cor(pdataNa$ref_nselectorate, pdataNa$lostVotesDummy)
 print(point_biserialH2)
 ```
 
-```
-# Question 3 At an election preceding a leadership race, a party who obtained a lower status within the legislature is more likely to have changed its leadership selectorate
+## Question 3 At an election preceding a leadership race, a party who obtained a lower status within the legislature is more likely to have changed its leadership selectorate
 
+```
 # Calculate biserial correlation
 correlationH3 <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$parlStatusChange)
 
