@@ -210,7 +210,7 @@ pdata %>%
   coord_flip()
 
 ```
-![Plot Title](https://github.com/username/my-repo/tree/main/plots/plot.pdf)
+![Link to ggplot output]([https://github.com/username/my-repo/tree/main/plots/plot.pdf](https://github.com/ODreyBren/beyondBallotCanadianPartyLeaders/blob/main/allLdrRacesDataCh2.pdf))
 
 
 
