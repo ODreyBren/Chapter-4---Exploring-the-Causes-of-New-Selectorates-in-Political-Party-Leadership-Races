@@ -210,7 +210,8 @@ pdata %>%
   coord_flip()
 
 ```
-![All Leadership Races Per Jurisdiction Per Family](path/to/allLdrRacesDataCh2.pdf)
+![Plot Title](https://github.com/username/my-repo/tree/main/plots/plot.pdf)
+
 
 
 ### Boxplot Seats (Absolute QTY)
