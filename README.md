@@ -1,6 +1,10 @@
 # Purpose
 r code for Empirical Chapter 2 of the doctoral dissertation "Beyond the Ballot: Reviewing Canadian Political Parties' Leadership Selection Rules" completed at Université Laval and Université libre de Bruxelles (Cevipol). This chapter quantitatively tests for the likelihood of Anomalous outcomes and Act Contingent events to precede a selectorte reform.
 
+## Notes on data
+The leadership race inventory was conducted in the fall of 2023. The below code applies a series of transformations to the the varius variables. The final dataset output of those transformations is the data used in Empirical Chapter 2 of the dissertation. For the original dataset or the transformed dataset, please contact the author.
+
+
 # Research Questions
 **Q1. Anomalous Outcome 1** Is a party who lost seats in the legislature following the election that preceded the leadership race more likely to adopt a new selectorate in the subsequent leadership race?
 
@@ -36,6 +40,9 @@ library(readxl)
 ```
 
 ## Importing the Excel file
+
+This file represents the leadership race inventory conducted in the Fall of 2023. 
+
 ```
 data <- read_excel("_bdChefferie_2023-12-11.xlsx")
 ```
@@ -94,14 +101,14 @@ pdata <- pdata %>% arrange(nparty, yearLdrVote)
 
 
 
-#  a new variable that identifies changes nSelectorate
+#  a new variable that identifies changes nSelectorate. Variable name: `ref_nselectorate`
 pdata <- pdata %>%
   arrange(yearLdrVote) %>%
   group_by(jurisdiction, party) %>%
   mutate(ref_nselectorate = ifelse(c(0, diff(nSelectorate)) != 0, 1, 0)) %>%
   ungroup()
 
-#a new variable that identifies the type of change. Where a positive value woud mean decentralization and a negative value would be centralization. The number represents how many levels of change on the selectorate scale.
+#a new variable that identifies the type of change. Where a positive value woud mean decentralization and a negative value would be centralization. The number represents how many levels of change on the selectorate scale. Variable name: `ref_nselectorateDirection`
 
 pdata <- pdata %>%
   arrange(yearLdrVote) %>%
@@ -167,6 +174,15 @@ pdata$ref_nselectorateText <- NA
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 1] <- "Reform"
 pdata$ref_nselectorateText[pdata$ref_nselectorate == 0] <- "No Reform"
 
+```
+
+## Export the new dataset as a `.csv` file. 
+
+
+```
+library(rio)
+
+export(pdata, "canadianLdrRacesBrennanDissertation_march2024.csv")
 ```
 
 
