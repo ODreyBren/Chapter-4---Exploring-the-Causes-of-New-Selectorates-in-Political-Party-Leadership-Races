@@ -204,7 +204,7 @@ print(codebook(pdata), "ldrRaceCanadaCodeBook.docx")
 
 ## Visualizing the variables
 
-The `ggplot2` outputs are stored in the repository as PDFs
+The `ggplot2` outputs are stored in the repository as PDFs (see above files)
 
 ```
 # Define custom colors for each party family 
