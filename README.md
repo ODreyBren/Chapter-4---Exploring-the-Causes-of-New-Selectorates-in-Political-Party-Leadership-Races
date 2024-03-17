@@ -180,13 +180,19 @@ print(codebook(pdata), "ldrRaceCanadaCodeBook.docx")
 ```
 
 ## Visualizing the variables
+
+The `ggplot2` outputs are stored in the repository as PDFs
+
 ```
-# Define custom colors for each party family
+# Define custom colors for each party family 
 family_colors <- c("conservative" = "blue", "liberal" = "red", "new democratic" = "darkorange", "green" = "darkgreen", "sovereigntist" = "darkblue")  # Add more colors as needed
 ```
 
 
 ### Plot the observations of my data
+
+File name `allLdrRacesDataCh2.pdf`
+
 ```
 pdata %>%
   #filter(!is.na(ref_nselectorateText)) %>%
@@ -210,11 +216,10 @@ pdata %>%
   coord_flip()
 
 ```
-![Link to ggplot output]([https://github.com/username/my-repo/tree/main/plots/plot.pdf](https://github.com/ODreyBren/beyondBallotCanadianPartyLeaders/blob/main/allLdrRacesDataCh2.pdf))
-
-
 
 ### Boxplot Seats (Absolute QTY)
+
+File name `boxplotSeatQty.pdf`
 
 ```
    pdata %>%
@@ -239,6 +244,10 @@ pdata %>%
 ```     
 
 ### Boxplot Percent of seats in the house
+
+File name `boxplotSeatPercent.pdf`
+
+
 ```
         pdata %>%
           filter(!is.na(ref_nselectorateText)) %>%
@@ -262,6 +271,9 @@ pdata %>%
 ```
 
 ### Boxplot Change in Vote share (percent of vote)
+
+File name `votesshareWonLost.pdf`
+
 
 ```
       pdata %>%
@@ -287,6 +299,9 @@ pdata %>%
 
 ### Boxplot Change in Parliamentary Status
 
+File name `parlStatChange.pdf`
+
+
 ```
         pdata %>%
           filter(!is.na(ref_nselectorateText)) %>%
@@ -308,6 +323,8 @@ pdata %>%
 ```
 
 ### Barplot Parliamentary status when the race was launched
+
+File name `parlStatMomentRace.pdf`
 
 ```
 pdata %>%
