@@ -29,6 +29,8 @@ Outcome Contingent
 
 **Q11. Consultative Process 3** Which of the factors depicted Figure 1 necessary for a reform to advance to the consultation process?
 
+**Q12. Reform Enactment** How do parties enact the reform of the leadership selectorate?
+
 
 # Code
 ```R
@@ -554,7 +556,7 @@ point_biserialH3 <- cor(pdataNa$ref_nselectorate, pdataNa$lostParlStatDummy)
 print(point_biserialH3)
 ```
 
-# Questions 4 - 11
+# Questions 4 - 12
 **Questions 4 and 5** have perfect separation. No test are conducted. They results are just discussed in the chapter.
-**Questions 6 to 11** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3.
+**Questions 6 to 11** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3. Whereas **Question 12** is also addressed using qualitative methods in the next chapter.
 
