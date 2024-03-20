@@ -532,22 +532,20 @@ point_biserialH2_se <- sqrt((1 - point_biserialH2^2) / (n - 2))
 
 ```
 # Calculate biserial correlation
-correlationH3 <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$parlStatusChange)
-
-# Extract the biserial correlation coefficient
-biserial_corH3 <- correlationH3$correlations[1, 2]
-
-# Print the correlation coefficient
-print(biserial_corH3)
+correlationH3ParlStat <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$parlStatusChange)
 
 
 # Calculate point-biserial correlation coefficient
-pdataNa <-pdata %>%
+pdataNa3 <-pdata %>%
   filter(!is.na(ref_nselectorateText) & !is.na(lostParlStatDummy))
 
-point_biserialH3 <- cor(pdataNa$ref_nselectorate, pdataNa$lostParlStatDummy)
+point_biserialH3 <- cor(pdataNa3$ref_nselectorate, pdataNa3$lostParlStatDummy)
 
-print(point_biserialH3)
+# Calculate sample size
+n <- nrow(pdataNa3)
+
+# Calculate standard error
+point_biserialH3_se <- sqrt((1 - point_biserialH3^2) / (n - 2))
 ```
 
 # Questions 4 - 12
