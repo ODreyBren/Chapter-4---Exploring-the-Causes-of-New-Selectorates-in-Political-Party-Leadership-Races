@@ -23,6 +23,12 @@ Outcome Contingent
 
 **Q8. Outcome Contingent 3** Is a party using a selectorate that differs from that other parties in its political family more likely to adopt a new selectorate when that party improved its status in parliament at the election following the leadership race?
 
+**Q9. Consultative Process 1** Which party actors are involved in the consultation process?
+
+**Q10. Consultative Process 2** What occurs during the consultation process?
+
+**Q11. Consultative Process 3** Which of the factors depicted Figure 1 necessary for a reform to advance to the consultation process?
+
 
 # Code
 ```R
@@ -550,5 +556,5 @@ print(point_biserialH3)
 
 # Questions 4 - 8
 **Questions 4 and 5** have perfect separation. No test are conducted. They results are just discussed in the chapter.
-**Questions 6 to 8** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3.
+**Questions 6 to 11** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3.
 
