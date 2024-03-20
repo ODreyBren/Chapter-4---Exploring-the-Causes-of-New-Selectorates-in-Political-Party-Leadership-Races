@@ -485,7 +485,7 @@ print(doc, target = "h1H2_diagnosticsTable.docx")
 
 ## Question 1 A party who obtained less seats in the legislature in the election preceding the leadership race is more likely to use a new selectorate
 ```
-# Load library
+# Load package
 library(polycor)
 
 # Calculate biserial correlation
@@ -493,23 +493,20 @@ correlationH1_seats <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$seatsWon
 correlationH1_seatsPercent <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentSeatWonLost)
 
 
-# Extract the biserial correlation coefficient
-biserial_corH1_seatsPercent <- correlationH1_seatsPercent$correlations[1, 2]
-
-# Print the correlation coefficient
-print(biserial_corH1_seatsPercent)
-
-
 # Load library
 library(psych)
 
 # Calculate point-biserial correlation coefficient
-pdataNa <-pdata %>%
+pdataNa1 <-pdata %>%
   filter(!is.na(ref_nselectorateText) & !is.na(lostSeatsDummy))
 
-point_biserialH1 <- cor(pdataNa$ref_nselectorate, pdataNa$lostSeatsDummy)
+point_biserialH1 <- cor(pdataNa1$ref_nselectorate, pdataNa1$lostSeatsDummy)
 
-print(point_biserial)
+# Calculate sample size
+n <- nrow(pdataNa1)
+
+# Calculate standard error
+point_biserialH1_se <- sqrt((1 - point_biserialH1^2) / (n - 2))
 ```
 
 
