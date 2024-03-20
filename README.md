@@ -554,7 +554,7 @@ point_biserialH3 <- cor(pdataNa$ref_nselectorate, pdataNa$lostParlStatDummy)
 print(point_biserialH3)
 ```
 
-# Questions 4 - 8
+# Questions 4 - 11
 **Questions 4 and 5** have perfect separation. No test are conducted. They results are just discussed in the chapter.
 **Questions 6 to 11** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3.
 
