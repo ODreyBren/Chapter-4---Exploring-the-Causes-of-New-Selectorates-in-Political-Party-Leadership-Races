@@ -513,22 +513,19 @@ point_biserialH1_se <- sqrt((1 - point_biserialH1^2) / (n - 2))
 ## Question 2 At an election preceding a leadership race, a party who obtained less votes than the previous election is more likely to have changed the selectorate
 ```
 # Calculate biserial correlation
-correlationH2 <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentWonLost)
-
-# Extract the biserial correlation coefficient
-biserial_corH2 <- correlationH2$correlations[1, 2]
-
-# Print the correlation coefficient
-print(biserial_corH2)
-
+correlationH2Votes <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentWonLost)
 
 # Calculate point-biserial correlation coefficient
-pdataNa <-pdata %>%
+pdataNa2 <-pdata %>%
   filter(!is.na(ref_nselectorateText) & !is.na(lostVotesDummy))
 
-point_biserialH2 <- cor(pdataNa$ref_nselectorate, pdataNa$lostVotesDummy)
+point_biserialH2 <- cor(pdataNa2$ref_nselectorate, pdataNa2$lostVotesDummy)
 
-print(point_biserialH2)
+# Calculate sample size
+n <- nrow(pdataNa2)
+
+# Calculate standard error
+point_biserialH2_se <- sqrt((1 - point_biserialH2^2) / (n - 2))
 ```
 
 ## Question 3 At an election preceding a leadership race, a party who obtained a lower status within the legislature is more likely to have changed its leadership selectorate
