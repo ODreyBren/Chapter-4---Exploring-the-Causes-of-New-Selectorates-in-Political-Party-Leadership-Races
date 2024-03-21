@@ -488,12 +488,21 @@ print(doc, target = "h1H2_diagnosticsTable.docx")
 # Load package
 library(polycor)
 
-# Calculate biserial correlation
+# Calculate biserial correlations
+#SeatsQTY
 correlationH1_seats <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$seatsWonLost)
+
+#get the standard errors (for ggplot)
+correlationH1_seats_se <- as.numeric(correlationH1_seats$std.errors[2])
+
+#seats percent
 correlationH1_seatsPercent <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentSeatWonLost)
 
+#get the standard errors (for ggplot)
+correlationH1_seatsPercent_se <- as.numeric(correlationH1_seatsPercent$std.errors[2])
 
-# Load library
+
+# Load package
 library(psych)
 
 # Calculate point-biserial correlation coefficient
@@ -515,6 +524,10 @@ point_biserialH1_se <- sqrt((1 - point_biserialH1^2) / (n - 2))
 # Calculate biserial correlation
 correlationH2Votes <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentWonLost)
 
+#get the standard errors (for ggplot)
+correlationH2Votes_se <- as.numeric(correlationH2Votes$std.errors[2])
+
+
 # Calculate point-biserial correlation coefficient
 pdataNa2 <-pdata %>%
   filter(!is.na(ref_nselectorateText) & !is.na(lostVotesDummy))
@@ -534,6 +547,8 @@ point_biserialH2_se <- sqrt((1 - point_biserialH2^2) / (n - 2))
 # Calculate biserial correlation
 correlationH3ParlStat <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$parlStatusChange)
 
+#get the standard errors (for ggplot)
+correlationH3ParlStat_se <- as.numeric(correlationH3ParlStat$std.errors[2])
 
 # Calculate point-biserial correlation coefficient
 pdataNa3 <-pdata %>%
@@ -546,6 +561,43 @@ n <- nrow(pdataNa3)
 
 # Calculate standard error
 point_biserialH3_se <- sqrt((1 - point_biserialH3^2) / (n - 2))
+```
+
+## Create a coefficients plot
+
+Filename `coefficientPlot.pdf`
+```
+# Define coefficients and their standard errors
+coefficients <- c(correlationH1_seats$correlations[1, 2], correlationH1_seatsPercent$correlations[1, 2], point_biserialH1, correlationH2Votes$correlations[1, 2], point_biserialH2, correlationH3ParlStat$correlations[1, 2], point_biserialH3)
+se <- c(correlationH1_seats_se, correlationH1_seatsPercent_se, point_biserialH1_se, correlationH2Votes_se, point_biserialH2_se, correlationH3ParlStat_se, point_biserialH3_se)
+
+# Define questions
+questions <- c("Seats qty", "Seats Percent", "Lost Seats", "Vote share change", "Lost votes", "Change Parl. Stat.", "Lost Parl. Stat.")
+
+
+
+# Create a data frame for plotting
+plot_data <- data.frame(
+  Question = rep(questions),
+  Coefficient = coefficients,
+  SE = rep(se)
+)
+
+
+## Create ggplot
+
+          # Create the coefficient plot with error bars
+          ggplot(plot_data, aes(x = Question, y = Coefficient)) +
+            geom_point() +
+            geom_pointrange(aes(ymin = Coefficient - SE, ymax = Coefficient + SE)) +
+            labs(title = " ",
+                 x = " ",
+                 y = " ") +
+            theme_minimal() +
+            theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 14, face = "bold"),  # Add bold parameter
+                  axis.text.y = element_text(size = 14, face = "bold"),                         # Add bold parameter
+                  axis.title = element_text(size = 14, face = "bold"))                          # Add bold parameter
+
 ```
 
 # Questions 4 - 12
