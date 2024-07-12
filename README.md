@@ -1,5 +1,5 @@
 # Purpose
-r code for Empirical Chapter 2 of the doctoral dissertation "Beyond the Ballot: Reviewing Canadian Political Parties' Leadership Selection Rules" completed at Université Laval and Université libre de Bruxelles (Cevipol). This chapter quantitatively tests for the likelihood of Anomalous outcomes and Act Contingent events to precede a selectorate reform.
+r code for Chapter 4 of the doctoral dissertation "Beyond the Ballot: Reviewing Canadian Political Parties' Leadership Selection Rules" completed at Université Laval and Université libre de Bruxelles (Cevipol). This chapter quantitatively tests for the likelihood of Anomalous outcomes and Act Contingent events to precede a selectorate reform.
 
 ## Notes on data
 The leadership race inventory was conducted in the fall of 2023. The below code applies a series of transformations to the the various variables. The final dataset output of those transformations is the data used in Empirical Chapter 2 of the dissertation. For the original dataset or the transformed dataset, please contact the author.
