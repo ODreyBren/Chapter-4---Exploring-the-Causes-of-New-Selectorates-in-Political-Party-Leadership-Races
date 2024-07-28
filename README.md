@@ -582,14 +582,13 @@ For the full overview of the protocol see Table 17 in Chapter 4. Furthermore, fo
 # Code for Appendix analyses (GLM and Firth GLM)
 ```
 # Load necessary libraries
-library(brglm2)
+
 library(stats)
 library(officer)
 library(flextable)
-
-# Load necessary libraries
+library(stargazer)
 library(glm)
-library(brglm2)  # For Firth logistic regression
+library(brglm2)  
 
 # Define the models basic logistic
 base_glm_influencedByOthersFamily <- glm(ref_nselectorate ~ influencedByOthersFamily, data = pdata, family = binomial("logit"))
@@ -613,9 +612,6 @@ firth_glm_seatsWonLost <- brglm(ref_nselectorate ~ seatsWonLost, data = pdata, f
 firth_glm_lostSeatsDummy <- brglm(ref_nselectorate ~ lostSeatsDummy, data = pdata, family = binomial("logit"))
 
 
-
-library(stargazer)
-library(officer)
 
 # Combine the models into lists
 base_glm_models <- list(
@@ -641,18 +637,19 @@ firth_glm_models <- list(
 )
 
 
-# Assume models_base and models_firth are lists containing your models
 
 # Base GLM
 stargazer(models_base, type = "text", title = "Base GLM Results", out = "base_glm.txt")
 
 # Firth GLM
 stargazer(models_firth, type = "text", title = "Firth GLM Results", out = "firth_glm.txt")
+```
 
 
-
-#create coefficient plot
-
+# Create a combined coefficient plot with side-by-side points
+Filename `coefficientPlot_APPENDIX.pdf`
+Note: The "influenced by" variables removed for parsimonious plot.
+```
 library(ggplot2)
 library(broom)
 library(dplyr)
@@ -743,10 +740,8 @@ combined_coefs$term <- factor(combined_coefs$term, levels = c(
   "Seats Won/Lost"
 ))
 
-
-
-      # Create a combined coefficient plot with side-by-side points
-      ggplot(combined_coefs, aes(x = estimate, y = term, color = Method, shape = Method)) +
+     
+ggplot(combined_coefs, aes(x = estimate, y = term, color = Method, shape = Method)) +
         geom_point(size = 3, position = position_dodge(width = 0.5)) +  # Adjust position
         geom_errorbarh(aes(xmin = estimate - std.error, xmax = estimate + std.error), height = 0.2, position = position_dodge(width = 0.5)) +
         theme_minimal() +
