@@ -5,32 +5,8 @@ r code for Chapter 4 of the doctoral dissertation "Beyond the Ballot: Reviewing 
 The leadership race inventory was conducted in the fall of 2023. The below code applies a series of transformations to the the various variables. The final dataset output of those transformations is the data used in Empirical Chapter 2 of the dissertation. For the original dataset or the transformed dataset, please contact the author.
 
 
-# Research Questions
-**Q1. Anomalous Outcome 1** Is a party who lost seats in the legislature following the election that preceded the leadership race more likely to adopt a new selectorate in the subsequent leadership race?
-
-**Q2. Anomalous Outcome 2** Is a party who lost votes following the election that preceded the leadership race more likely to adopt a new selectorate in the subsequent leadership race?
-
-**Q3. Anomalous Outcome 3** Is a party whose parliamentary status receded following the election preceding the leadership race more likely to adopt a new selectorate in the subsequent leadership race?
-
-**Q4. Act Contingent 1** Is a party using a selectorate that differs from that of other parties in its jurisdiction more likely to adopt a new selectorate?
-
-**Q5. Act Contingent 2** Is a party using a selectorate that differs from that other parties in its political family more likely to adopt a new selectorate?
-Outcome Contingent
-
-**Q6. Outcome Contingent 1** Is a party using a selectorate that differs from that of other parties in its jurisdiction more likely to adopt a new selectorate when that party gets more seats at the election following the leadership race?
-
-**Q7. Outcome Contingent 2** Is a party using a selectorate that differs from that other parties in its political family more likely to adopt a new selectorate when that party gets more votes at the election following the leadership race?
-
-**Q8. Outcome Contingent 3** Is a party using a selectorate that differs from that other parties in its political family more likely to adopt a new selectorate when that party improved its status in parliament at the election following the leadership race?
-
-**Q9. Consultative Process 1** Which party actors are involved in the consultation process?
-
-**Q10. Consultative Process 2** What occurs during the consultation process?
-
-**Q11. Consultative Process 3** Which of the factors depicted Figure 1 necessary for a reform to advance to the consultation process?
-
-**Q12. Reform Enactment** How do parties enact the reform of the leadership selectorate?
-
+# Research protocol
+See Table 17 in Chapter 4.
 
 # Code
 ```R
@@ -483,7 +459,7 @@ print(doc, target = "h1H2_diagnosticsTable.docx")
 
 
 
-## Question 1 A party who obtained less seats in the legislature in the election preceding the leadership race is more likely to use a new selectorate
+##  A party who obtained less seats in the legislature in the election preceding the leadership race is more likely to use a new selectorate
 ```
 # Load package
 library(polycor)
@@ -519,7 +495,7 @@ point_biserialH1_se <- sqrt((1 - point_biserialH1^2) / (n - 2))
 ```
 
 
-## Question 2 At an election preceding a leadership race, a party who obtained less votes than the previous election is more likely to have changed the selectorate
+## At an election preceding a leadership race, a party who obtained less votes than the previous election is more likely to have changed the selectorate
 ```
 # Calculate biserial correlation
 correlationH2Votes <- hetcor(as.numeric(pdata$ref_nselectorate), pdata$percentWonLost)
@@ -541,7 +517,7 @@ n <- nrow(pdataNa2)
 point_biserialH2_se <- sqrt((1 - point_biserialH2^2) / (n - 2))
 ```
 
-## Question 3 At an election preceding a leadership race, a party who obtained a lower status within the legislature is more likely to have changed its leadership selectorate
+## At an election preceding a leadership race, a party who obtained a lower status within the legislature is more likely to have changed its leadership selectorate
 
 ```
 # Calculate biserial correlation
@@ -600,7 +576,7 @@ plot_data <- data.frame(
 
 ```
 
-# Questions 4 - 12
-**Questions 4 and 5** have perfect separation. No test are conducted. They results are just discussed in the chapter.
-**Questions 6 to 11** cannot be tested quantitatively with the data at our disposal. They are considered using interviews and party reform documents in Empirical Chapter 3. Whereas **Question 12** is also addressed using qualitative methods in the next chapter.
+# Other dimensions in the protocol
+For the full overview of the protocol see Table 17 in Chapter 4. Furthermore, for the analysis of other elements in Shugart's framework (Chapter 5) consult this GitHub repository: https://github.com/ODreyBren/Chapter-5---The-Process-of-Leadership-Selectorate-Change-in-Canadian-Federal-and-Provincial-Parties
+
 
