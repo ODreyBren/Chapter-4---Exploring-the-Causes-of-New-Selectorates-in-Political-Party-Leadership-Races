@@ -579,4 +579,193 @@ plot_data <- data.frame(
 # Other dimensions in the protocol
 For the full overview of the protocol see Table 17 in Chapter 4. Furthermore, for the analysis of other elements in Shugart's framework (Chapter 5) consult this GitHub repository: https://github.com/ODreyBren/Chapter-5---The-Process-of-Leadership-Selectorate-Change-in-Canadian-Federal-and-Provincial-Parties
 
+# Code for Appendix analyses (GLM and Firth GLM)
+```
+# Load necessary libraries
+library(brglm2)
+library(stats)
+library(officer)
+library(flextable)
+
+# Load necessary libraries
+library(glm)
+library(brglm2)  # For Firth logistic regression
+
+# Define the models basic logistic
+base_glm_influencedByOthersFamily <- glm(ref_nselectorate ~ influencedByOthersFamily, data = pdata, family = binomial("logit"))
+base_glm_influencedByOthersJurisdiction <- glm(ref_nselectorate ~ influencedByOthersJurisdiction, data = pdata, family = binomial("logit"))
+base_glm_lostParlStatDummy <- glm(ref_nselectorate ~ lostParlStatDummy, data = pdata, family = binomial("logit"))
+base_glm_parlStatusChange <- glm(ref_nselectorate ~ parlStatusChange, data = pdata, family = binomial("logit"))
+base_glm_percentWonLost <- glm(ref_nselectorate ~ percentWonLost, data = pdata, family = binomial("logit"))
+base_glm_votesharePreviousElect <- glm(ref_nselectorate ~ votesharePreviousElect, data = pdata, family = binomial("logit"))
+base_glm_seatsWonLost <- glm(ref_nselectorate ~ seatsWonLost, data = pdata, family = binomial("logit"))
+base_glm_lostSeatsDummy <- glm(ref_nselectorate ~ lostSeatsDummy, data = pdata, family = binomial("logit"))
+
+
+# Define the models
+firth_glm_influencedByOthersFamily <- brglm(ref_nselectorate ~ influencedByOthersFamily, data = pdata, family = binomial("logit"))
+firth_glm_influencedByOthersJurisdiction <- brglm(ref_nselectorate ~ influencedByOthersJurisdiction, data = pdata, family = binomial("logit"))
+firth_glm_lostParlStatDummy <- brglm(ref_nselectorate ~ lostParlStatDummy, data = pdata, family = binomial("logit"))
+firth_glm_parlStatusChange <- brglm(ref_nselectorate ~ parlStatusChange, data = pdata, family = binomial("logit"))
+firth_glm_percentWonLost <- brglm(ref_nselectorate ~ percentWonLost, data = pdata, family = binomial("logit"))
+firth_glm_votesharePreviousElect <- brglm(ref_nselectorate ~ votesharePreviousElect, data = pdata, family = binomial("logit"))
+firth_glm_seatsWonLost <- brglm(ref_nselectorate ~ seatsWonLost, data = pdata, family = binomial("logit"))
+firth_glm_lostSeatsDummy <- brglm(ref_nselectorate ~ lostSeatsDummy, data = pdata, family = binomial("logit"))
+
+
+
+library(stargazer)
+library(officer)
+
+# Combine the models into lists
+base_glm_models <- list(
+  base_glm_influencedByOthersFamily,
+  base_glm_influencedByOthersJurisdiction,
+  base_glm_lostParlStatDummy,
+  base_glm_parlStatusChange,
+  base_glm_percentWonLost,
+  base_glm_votesharePreviousElect,
+  base_glm_seatsWonLost,
+  base_glm_lostSeatsDummy
+)
+
+firth_glm_models <- list(
+  firth_glm_influencedByOthersFamily,
+  firth_glm_influencedByOthersJurisdiction,
+  firth_glm_lostParlStatDummy,
+  firth_glm_parlStatusChange,
+  firth_glm_percentWonLost,
+  firth_glm_votesharePreviousElect,
+  firth_glm_seatsWonLost,
+  firth_glm_lostSeatsDummy
+)
+
+
+# Assume models_base and models_firth are lists containing your models
+
+# Base GLM
+stargazer(models_base, type = "text", title = "Base GLM Results", out = "base_glm.txt")
+
+# Firth GLM
+stargazer(models_firth, type = "text", title = "Firth GLM Results", out = "firth_glm.txt")
+
+
+
+#create coefficient plot
+
+library(ggplot2)
+library(broom)
+library(dplyr)
+
+# Extract coefficients for Base GLM models
+base_glm_models <- list(
+  "Influenced By Others Family" = base_glm_influencedByOthersFamily,
+  "Influenced By Others Jurisdiction" = base_glm_influencedByOthersJurisdiction,
+  "Lost Parl Status Dummy" = base_glm_lostParlStatDummy,
+  "Parl Status Change" = base_glm_parlStatusChange,
+  "Percent Won/Lost" = base_glm_percentWonLost,
+  "Vote Share Previous Election" = base_glm_votesharePreviousElect,
+  "Seats Won/Lost" = base_glm_seatsWonLost,
+  "Lost Seats Dummy" = base_glm_lostSeatsDummy
+)
+
+base_glm_coefs <- lapply(base_glm_models, tidy) %>%
+  bind_rows(.id = "Model")
+
+# Extract coefficients for Firth GLM models
+firth_glm_models <- list(
+  "Influenced By Others Family" = firth_glm_influencedByOthersFamily,
+  "Influenced By Others Jurisdiction" = firth_glm_influencedByOthersJurisdiction,
+  "Lost Parl Status Dummy" = firth_glm_lostParlStatDummy,
+  "Parl Status Change" = firth_glm_parlStatusChange,
+  "Percent Won/Lost" = firth_glm_percentWonLost,
+  "Vote Share Previous Election" = firth_glm_votesharePreviousElect,
+  "Seats Won/Lost" = firth_glm_seatsWonLost,
+  "Lost Seats Dummy" = firth_glm_lostSeatsDummy
+)
+
+firth_glm_coefs <- lapply(firth_glm_models, tidy) %>%
+  bind_rows(.id = "Model")
+
+# Combine Base and Firth GLM coefficients and filter out the two variables
+combined_coefs <- bind_rows(
+  mutate(base_glm_coefs, Method = "Base GLM"),
+  mutate(firth_glm_coefs, Method = "Firth GLM")
+) %>%
+  filter(term != "(Intercept)") %>%  # Exclude intercept
+  filter(!Model %in% c("Influenced By Others Family", "Influenced By Others Jurisdiction"))  # Exclude specified models
+
+# Create a combined coefficient plot 1
+ggplot(combined_coefs, aes(x = estimate, y = term, color = Method, shape = Method)) +
+  geom_point(size = 3) +
+  geom_errorbarh(aes(xmin = estimate - std.error, xmax = estimate + std.error), height = 0.2) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    legend.title = element_blank(),
+    legend.text = element_text(size = 8),
+    axis.text.x = element_text(size = 10),
+    axis.text.y = element_text(size = 10),
+    axis.title = element_text(size = 12)
+  ) +
+  scale_color_manual(values = c("Base GLM" = "darkgrey", "Firth GLM" = "#000000")) +  # Beige and Black
+  scale_shape_manual(values = c("Base GLM" = 16, "Firth GLM" = 17)) +
+  labs(
+    title = "Coefficient Estimates from Base GLM and Firth GLM Models",
+    x = "Coefficient Estimate",
+    y = "Predictor"
+  ) +
+  coord_flip()
+
+
+# Create a combined coefficient plot 2
+# Rename terms manually
+combined_coefs$term <- recode(
+  combined_coefs$term,
+  "influencedByOthersFamily" = "Influenced By Others (Family)",
+  "influencedByOthersJurisdiction" = "Influenced By Others (Jurisdiction)",
+  "lostParlStatDummy" = "Lost Parl Status Dummy",
+  "parlStatusChange" = "Parliament Status Change",
+  "percentWonLost" = "Percent Won/Lost",
+  "votesharePreviousElect" = "Vote Share Previous Election",
+  "seatsWonLost" = "Seats Won/Lost",
+  "lostSeatsDummy" = "Lost Seats Dummy"
+)
+
+
+# Reorder terms manually
+combined_coefs$term <- factor(combined_coefs$term, levels = c(
+  "Parliament Status Change",
+  "Lost Parl Status Dummy",
+  "Lost Seats Dummy",
+  "Vote Share Previous Election",
+  "Percent Won/Lost",
+  "Seats Won/Lost"
+))
+
+
+
+      # Create a combined coefficient plot with side-by-side points
+      ggplot(combined_coefs, aes(x = estimate, y = term, color = Method, shape = Method)) +
+        geom_point(size = 3, position = position_dodge(width = 0.5)) +  # Adjust position
+        geom_errorbarh(aes(xmin = estimate - std.error, xmax = estimate + std.error), height = 0.2, position = position_dodge(width = 0.5)) +
+        theme_minimal() +
+        theme(
+          legend.position = "bottom",
+          legend.title = element_blank(),
+          legend.text = element_text(size = 8),
+          axis.text.x = element_text(size = 10),
+          axis.text.y = element_text(size = 10),
+          axis.title = element_text(size = 12)
+        ) +
+        scale_color_manual(values = c("Base GLM" = "darkgrey", "Firth GLM" = "#000000")) +  # Beige and Black
+        scale_shape_manual(values = c("Base GLM" = 16, "Firth GLM" = 17)) +
+        labs(
+          title = "",
+          x = "Coefficient Estimate",
+          y = "Predictor"
+        ) +
+        coord_flip()
+```
+
 
