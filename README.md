@@ -67,7 +67,7 @@ pdata <- pdata.frame(data, index = c("nparty", "id"))
 pdata$family <- factor(pdata$family, levels = c("conservative", "liberal", "new democratic", "green", "sovereigntist"))
 
 # Rename the levels to have capitalized names (Nicer Figures)
-levels(pdata$family) <- c("Conservative", "Liberal", "New Democratic", "Green", "Sovereigntist")
+levels(pdata$family) <- c("Conservative", "Liberal", "New Democratic", "Green", "Secessionist")
 
 pdata$jurisdiction <- factor(pdata$jurisdiction, levels = c("canada", "bc", "ab", "sk", "mb", "on", "qc", "nb", "ns", "pei","nl"))
 
