@@ -62,7 +62,7 @@ data$seatsWonLost <- as.numeric(data$seatsWonLost)
 pdata <- pdata.frame(data, index = c("nparty", "id"))
 
 
-# reorder the family categorical for more intuitive numbering
+## reorder the family categorical for more intuitive numbering
 # Reorder the levels of the factor variable
 pdata$family <- factor(pdata$family, levels = c("conservative", "liberal", "new democratic", "green", "sovereigntist"))
 
@@ -73,6 +73,7 @@ pdata$jurisdiction <- factor(pdata$jurisdiction, levels = c("canada", "bc", "ab"
 
 # Rename the levels to have capitalized names (Nicer Figures)
 levels(pdata$jurisdiction) <- c("Canada", "BC", "AB", "SK", "MB", "ON", "QC", "NB", "NS", "PEI", "NL")
+
 
 
 
@@ -196,8 +197,8 @@ print(codebook(pdata), "ldrRaceCanadaCodeBook.docx")
 The `ggplot2` outputs are stored in the repository as PDFs (see above files)
 
 ```
-# Define custom colors for each party family 
-family_colors <- c("conservative" = "blue", "liberal" = "red", "new democratic" = "darkorange", "green" = "darkgreen", "sovereigntist" = "darkblue")  # Add more colors as needed
+# Define custom colors for each party family
+family_colors <- c("Conservative" = "blue", "Liberal" = "red", "New Democratic" = "darkorange", "Green" = "darkgreen", "Secessionist" = "darkblue")  # Add more colors as needed
 ```
 
 
